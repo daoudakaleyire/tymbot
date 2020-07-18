@@ -1,0 +1,19 @@
+version: '3.3'
+services:
+    bot:
+        build:
+          context: .
+        image: kaleurbot
+        container_name: kaleurbot
+        depends_on:
+           - database
+        environment:
+            TELEGRAM_BOT_ACCESS_TOKEN: ${TELEGRAM_BOT_ACCESS_TOKEN}
+        ports:
+            - 5001:80
+            - 444:443
+    database:
+        image: mariadb:10.1
+        environment:
+            MYSQL_ROOT_PASSWORD: RyC5vpPn1ztxqpRkbTUnQ4Wvy96Euou
+            MYSQL_DATABASE: tymbotdb
