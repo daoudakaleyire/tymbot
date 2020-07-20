@@ -188,7 +188,9 @@ namespace tymbot
                 }
             }
 
-            await botClient.SendTextMessageAsync(e.Message.Chat, reply.ToString()); 
+            if (reply.Length > 0) {
+                await botClient.SendTextMessageAsync(e.Message.Chat, reply.ToString()); 
+            }
         }
     }
 }
