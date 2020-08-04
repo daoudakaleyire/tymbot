@@ -4,6 +4,7 @@ services:
         build:
           context: .
         image: kaleurbot
+        restart: always
         container_name: kaleurbot
         depends_on:
            - database
@@ -15,6 +16,7 @@ services:
             - 444:443
     database:
         image: mariadb:10.1
+        restart: always
         environment:
             MYSQL_ROOT_PASSWORD: ${DATABASE_ROOT_PASSWORD}
             MYSQL_DATABASE: db
