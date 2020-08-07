@@ -96,7 +96,7 @@ namespace tymbot
                 Chat chat = (command == BotCommands.Time && user.ChatId.HasValue) 
                     ? new Chat() { Id = user.ChatId.Value, Type = ChatType.Private } 
                     : e.Message.Chat;
-                await botClient.SendTextMessageAsync(e.Message.Chat, response, replyToMessageId: e.Message.MessageId); 
+                await botClient.SendTextMessageAsync(chat, response, replyToMessageId: e.Message.MessageId); 
             }
         }
 
