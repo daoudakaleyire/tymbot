@@ -8,32 +8,34 @@ namespace tymbot.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "UserTimeZone",
+                name: "User",
                 columns: table => new
                 {
-                    UserId = table.Column<int>(nullable: false)
+                    UserId = table.Column<long>(nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    TimeZone = table.Column<string>(maxLength: 50, nullable: true)
+                    Name = table.Column<string>(maxLength: 50, nullable: true),
+                    TimeZone = table.Column<string>(maxLength: 50, nullable: true),
+                    ChatId = table.Column<long>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_UserTimeZone", x => x.UserId);
+                    table.PrimaryKey("PK_User", x => x.UserId);
                 });
 
             migrationBuilder.CreateTable(
                 name: "UserFriend",
                 columns: table => new
                 {
-                    UserId = table.Column<int>(nullable: false),
-                    FriendId = table.Column<int>(nullable: false)
+                    UserId = table.Column<long>(nullable: false),
+                    FriendId = table.Column<long>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_UserFriend", x => new { x.UserId, x.FriendId });
                     table.ForeignKey(
-                        name: "FK_UserFriend_UserTimeZone_UserId",
+                        name: "FK_UserFriend_User_UserId",
                         column: x => x.UserId,
-                        principalTable: "UserTimeZone",
+                        principalTable: "User",
                         principalColumn: "UserId",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -45,7 +47,7 @@ namespace tymbot.Migrations
                 name: "UserFriend");
 
             migrationBuilder.DropTable(
-                name: "UserTimeZone");
+                name: "User");
         }
     }
 }

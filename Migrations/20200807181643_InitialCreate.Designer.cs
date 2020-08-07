@@ -9,8 +9,8 @@ using tymbot.Data;
 namespace tymbot.Migrations
 {
     [DbContext(typeof(TymDbContext))]
-    [Migration("20200807171817_UserChatId")]
-    partial class UserChatId
+    [Migration("20200807181643_InitialCreate")]
+    partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
