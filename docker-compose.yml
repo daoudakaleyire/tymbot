@@ -20,3 +20,12 @@ services:
         environment:
             MYSQL_ROOT_PASSWORD: ${DATABASE_ROOT_PASSWORD}
             MYSQL_DATABASE: db
+    phpmyadmin:
+        image: phpmyadmin/phpmyadmin
+        environment:
+            MYSQL_ROOT_PASSWORD: ${DATABASE_ROOT_PASSWORD}
+            PMA_HOST: database
+        depends_on:
+           - database
+        ports:
+            - 8080:80
