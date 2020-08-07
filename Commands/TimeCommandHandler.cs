@@ -19,40 +19,42 @@ namespace tymbot.Commands
             var fromUserId = message.ReplyToMessage?.From.Id;
             if (fromUserId == null)
             {
-                var userZone = await db.UserTimeZones
+                var user = await db.Users
                     .Where(u => u.UserId == userId)
                     .FirstOrDefaultAsync();
 
-                if (userZone == null)
+                if (user == null)
                 {
                     reply.AppendLine("Please set your timezone using /timezone command");
                 }
                 else
                 {
-                    var zone = DateTimeZoneProviders.Tzdb[userZone.TimeZone];
+                    var zone = DateTimeZoneProviders.Tzdb[user.TimeZone];
                     var clock = SystemClock.Instance.InZone(zone);
                     var now = clock.GetCurrentZonedDateTime();
                     var pattern = ZonedDateTimePattern.CreateWithInvariantCulture("dddd MMM dd, yyyy h:mm tt z '('o<g>')'", null);
+                    reply.AppendLine("Your current time is: ");
                     reply.Append(pattern.Format(now));
                 }
             }
             else
             {
                 var userFriend = await db.UserFriends
-                    .Include(f => f.UserTimeZone)
+                    .Include(f => f.User)
                     .Where(f => f.UserId == fromUserId && f.FriendId == userId)
                     .FirstOrDefaultAsync();
 
                 if (userFriend == null) 
                 {
-                    reply.AppendLine("No time info found.");
+                    reply.AppendLine($"No time info found for {message.ReplyToMessage.From.Username}.");
                 }
                 else
                 {
-                    var zone = DateTimeZoneProviders.Tzdb[userFriend.UserTimeZone.TimeZone];
+                    var zone = DateTimeZoneProviders.Tzdb[userFriend.User.TimeZone];
                     var clock = SystemClock.Instance.InZone(zone);
                     var now = clock.GetCurrentZonedDateTime();
                     var pattern = ZonedDateTimePattern.CreateWithInvariantCulture("dddd MMM dd, yyyy h:mm tt z '('o<g>')'", null);
+                    reply.AppendLine($"{message.ReplyToMessage.From.Username} current time is: ");
                     reply.Append(pattern.Format(now));
                 }
             }

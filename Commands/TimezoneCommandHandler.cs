@@ -9,7 +9,6 @@ namespace tymbot.Commands
     using NodaTime.Text;
     using Telegram.Bot.Types;
     using tymbot.Data;
-    using tymbot.Models;
 
     public class TimezoneCommandHandler : CommandHandler
     {
@@ -41,23 +40,25 @@ namespace tymbot.Commands
             }
             else 
             {
-                var userTimeZone = await db.UserTimeZones
+                var user = await db.Users
                     .Where(f => f.UserId == userId)
                     .FirstOrDefaultAsync();
             
-                if (userTimeZone == null)
+                if (user == null)
                 {
-                    userTimeZone = new UserTimeZone()
+                    user = new Models.User()
                     {
                         UserId = userId,
                         TimeZone = timezone,
+                        Name = message.From.FirstName,
                     };
-                    db.UserTimeZones.Add(userTimeZone);
+                    db.Users.Add(user);
                     await db.SaveChangesAsync();
                 }
                 else
                 {
-                    userTimeZone.TimeZone = timezone;
+                    user.TimeZone = timezone;
+                    user.Name = message.From.FirstName;
                     await db.SaveChangesAsync();
                 }
                 
@@ -65,6 +66,7 @@ namespace tymbot.Commands
                 var clock = SystemClock.Instance.InZone(zone);
                 var now = clock.GetCurrentZonedDateTime();
                 var pattern = ZonedDateTimePattern.CreateWithInvariantCulture("dddd MMM dd, yyyy h:mm tt z '('o<g>')'", null);
+                reply.AppendLine("Your current time is: ");
                 reply.Append(pattern.Format(now));
             }
 

@@ -13,14 +13,14 @@ namespace tymbot.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-            modelBuilder.Entity<UserTimeZone>().ToTable("UserTimeZone");
+            modelBuilder.Entity<User>().ToTable("User");
             modelBuilder.Entity<UserFriend>().ToTable("UserFriend");
             
             EntityTypeBuilder<UserFriend> userFriendEntity = modelBuilder.Entity<UserFriend>();
             userFriendEntity.HasKey(tr => new { tr.UserId, tr.FriendId });
         }
 
-        public DbSet<UserTimeZone> UserTimeZones { get; set; }
+        public DbSet<User> Users { get; set; }
         public DbSet<UserFriend> UserFriends { get; set; }
     }
 }
