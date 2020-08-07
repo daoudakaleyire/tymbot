@@ -7,6 +7,14 @@ namespace tymbot.Migrations
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropForeignKey(
+                name: "FK_UserFriend_UserTimeZone_UserId",
+                table: "UserFriend");
+
+            migrationBuilder.DropPrimaryKey(
+                name: "PK_UserTimeZone",
+                table: "UserTimeZone");
+
             migrationBuilder.AlterColumn<long>(
                 name: "UserId",
                 table: "UserTimeZone",
@@ -40,10 +48,39 @@ namespace tymbot.Migrations
                 nullable: false,
                 oldClrType: typeof(int),
                 oldType: "int");
+
+            migrationBuilder.RenameTable(
+                name: "UserTimeZone",
+                newName: "User");
+
+            migrationBuilder.AddPrimaryKey(
+                name: "PK_User",
+                table: "User",
+                column: "UserId");
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_UserFriend_User_UserId",
+                table: "UserFriend",
+                column: "UserId",
+                principalTable: "User",
+                principalColumn: "UserId",
+                onDelete: ReferentialAction.Cascade);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropForeignKey(
+                name: "FK_UserFriend_User_UserId",
+                table: "UserFriend");
+
+            migrationBuilder.DropPrimaryKey(
+                name: "PK_User",
+                table: "User");
+
+            migrationBuilder.RenameTable(
+                name: "User",
+                newName: "UserTimeZone");
+
             migrationBuilder.DropColumn(
                 name: "ChatId",
                 table: "UserTimeZone");
@@ -74,6 +111,19 @@ namespace tymbot.Migrations
                 type: "int",
                 nullable: false,
                 oldClrType: typeof(long));
+
+            migrationBuilder.AddPrimaryKey(
+                name: "PK_UserTimeZone",
+                table: "UserTimeZone",
+                column: "UserId");
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_UserFriend_UserTimeZone_UserId",
+                table: "UserFriend",
+                column: "UserId",
+                principalTable: "UserTimeZone",
+                principalColumn: "UserId",
+                onDelete: ReferentialAction.Cascade);
         }
     }
 }

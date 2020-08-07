@@ -38,7 +38,7 @@ namespace tymbot.Migrations
 
                     b.HasKey("UserId");
 
-                    b.ToTable("UserTimeZone");
+                    b.ToTable("User");
                 });
 
             modelBuilder.Entity("tymbot.Models.UserFriend", b =>
