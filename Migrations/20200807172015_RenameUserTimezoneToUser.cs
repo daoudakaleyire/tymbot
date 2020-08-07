@@ -7,15 +7,15 @@ namespace tymbot.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropForeignKey(
-                name: "FK_UserFriend_UserTimezone_UserId",
+                name: "FK_UserFriend_UserTimeZone_UserId",
                 table: "UserFriend");
 
             migrationBuilder.DropPrimaryKey(
-                name: "PK_UserTimezone",
-                table: "UserTimezone");
+                name: "PK_UserTimeZone",
+                table: "UserTimeZone");
 
             migrationBuilder.RenameTable(
-                name: "UserTimezone",
+                name: "UserTimeZone",
                 newName: "User");
 
             migrationBuilder.AddPrimaryKey(
@@ -44,18 +44,18 @@ namespace tymbot.Migrations
 
             migrationBuilder.RenameTable(
                 name: "User",
-                newName: "UserTimezone");
+                newName: "UserTimeZone");
 
             migrationBuilder.AddPrimaryKey(
-                name: "PK_UserTimezone",
-                table: "UserTimezone",
+                name: "PK_UserTimeZone",
+                table: "UserTimeZone",
                 column: "UserId");
 
             migrationBuilder.AddForeignKey(
-                name: "FK_UserFriend_UserTimezone_UserId",
+                name: "FK_UserFriend_UserTimeZone_UserId",
                 table: "UserFriend",
                 column: "UserId",
-                principalTable: "UserTimezone",
+                principalTable: "UserTimeZone",
                 principalColumn: "UserId",
                 onDelete: ReferentialAction.Cascade);
         }

@@ -9,8 +9,8 @@ using tymbot.Data;
 namespace tymbot.Migrations
 {
     [DbContext(typeof(TymDbContext))]
-    [Migration("20200807165505_UserChatId")]
-    partial class UserChatId
+    [Migration("20200807172015_RenameUserTimezoneToUser")]
+    partial class RenameUserTimezoneToUser
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -38,7 +38,7 @@ namespace tymbot.Migrations
 
                     b.HasKey("UserId");
 
-                    b.ToTable("UserTimezone");
+                    b.ToTable("User");
                 });
 
             modelBuilder.Entity("tymbot.Models.UserFriend", b =>
