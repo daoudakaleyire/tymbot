@@ -109,7 +109,12 @@ namespace tymbot
                 }
                 else
                 {
-                    await botClient.SendTextMessageAsync(e.Message.Chat, response, replyToMessageId: e.Message.MessageId);
+                    await botClient.SendTextMessageAsync(
+                        e.Message.Chat, 
+                        response, 
+                        replyToMessageId: e.Message.MessageId,
+                        parseMode: ParseMode.Markdown
+                    );
                 }
             }
         }
