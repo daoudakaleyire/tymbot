@@ -6,6 +6,7 @@ namespace tymbot.Commands
         {
             return command switch
             {
+                BotCommands.Start => new StartCommandHandler(),
                 BotCommands.Time => new TimeCommandHandler(),
                 BotCommands.Timezone => new TimezoneCommandHandler(),
                 BotCommands.Friend => new FriendCommandHandler(),
