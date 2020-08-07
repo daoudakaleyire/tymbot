@@ -24,12 +24,14 @@ namespace tymbot.Commands
                     .Where(u => userIds.Contains(u.UserId))
                     .ToDictionaryAsync(u => u.UserId);
 
+                int count = 1;
                 reply.AppendLine("The following friends can see your current time: \n");
                 foreach (var uf in friends)
                 {
                     users.TryGetValue(uf.FriendId, out var friend);
-                    string name = string.IsNullOrWhiteSpace(friend?.Name) ? "name-not-available" : friend.Name;
+                    string name = string.IsNullOrWhiteSpace(friend?.Name) ? $"Friend {count}" : friend.Name;
                     reply.AppendLine($"[{name}](tg://user?id={uf.FriendId})");
+                    count++;
                 }
             }
             else
