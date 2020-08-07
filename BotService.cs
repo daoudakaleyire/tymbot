@@ -92,11 +92,16 @@ namespace tymbot
 
             
             var response = await handler.HandleAsync(e.Message, db);
-            if (response?.Length > 0) {
-                Chat chat = (command == BotCommands.Time && user.ChatId.HasValue) 
-                    ? new Chat() { Id = user.ChatId.Value, Type = ChatType.Private } 
-                    : e.Message.Chat;
-                await botClient.SendTextMessageAsync(chat, response, replyToMessageId: e.Message.MessageId); 
+            if (response?.Length > 0)
+            {
+                if (command == BotCommands.Time && user.ChatId.HasValue)
+                {
+                    await botClient.SendTextMessageAsync(new Chat() { Id = user.ChatId.Value, Type = ChatType.Private }, response);
+                }
+                else
+                {
+                    await botClient.SendTextMessageAsync(e.Message.Chat, response, replyToMessageId: e.Message.MessageId);
+                }
             }
         }
 
