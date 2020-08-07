@@ -10,8 +10,5 @@ namespace tymbot.Models
 
         [ForeignKey("UserId")]
         public User User { get; set; }
-
-        [ForeignKey("FriendId")]
-        public User Friend { get; set; }
     }
 }

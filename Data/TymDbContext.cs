@@ -17,7 +17,7 @@ namespace tymbot.Data
             modelBuilder.Entity<UserFriend>().ToTable("UserFriend");
             
             EntityTypeBuilder<UserFriend> userFriendEntity = modelBuilder.Entity<UserFriend>();
-            userFriendEntity.HasNoKey();
+            userFriendEntity.HasKey(tr => new { tr.UserId, tr.FriendId });
         }
 
         public DbSet<User> Users { get; set; }

@@ -14,16 +14,21 @@ namespace tymbot.Commands
             var reply = new StringBuilder();
             var userId = message.From.Id;
             var friends = await db.UserFriends
-                    .Include(uf => uf.Friend)
                     .Where(uf => uf.UserId == userId)
                     .ToListAsync();
 
             if (friends.Any())
             {
+                var userIds = friends.Select(fr => fr.FriendId);
+                var users = await db.Users
+                    .Where(u => userIds.Contains(u.UserId))
+                    .ToDictionaryAsync(u => u.UserId);
+
                 reply.AppendLine("The following friends can see your current time: \n");
                 foreach (var uf in friends)
                 {
-                    string name = string.IsNullOrWhiteSpace(uf.Friend.Name) ? "name-not-available" : uf.Friend.Name;
+                    users.TryGetValue(uf.FriendId, out var friend);
+                    string name = string.IsNullOrWhiteSpace(friend?.Name) ? "name-not-available" : friend.Name;
                     reply.AppendLine($"[{name}](tg://user?id={uf.FriendId})");
                 }
             }

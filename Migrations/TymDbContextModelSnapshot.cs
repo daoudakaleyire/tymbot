@@ -41,27 +41,19 @@ namespace tymbot.Migrations
 
             modelBuilder.Entity("tymbot.Models.UserFriend", b =>
                 {
-                    b.Property<long>("FriendId")
-                        .HasColumnType("bigint");
-
                     b.Property<long>("UserId")
                         .HasColumnType("bigint");
 
-                    b.HasIndex("FriendId");
+                    b.Property<long>("FriendId")
+                        .HasColumnType("bigint");
 
-                    b.HasIndex("UserId");
+                    b.HasKey("UserId", "FriendId");
 
                     b.ToTable("UserFriend");
                 });
 
             modelBuilder.Entity("tymbot.Models.UserFriend", b =>
                 {
-                    b.HasOne("tymbot.Models.User", "Friend")
-                        .WithMany()
-                        .HasForeignKey("FriendId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("tymbot.Models.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
