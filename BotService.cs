@@ -42,6 +42,11 @@ namespace tymbot
                 },
                 new BotCommand()
                 {
+                    Command = BotCommands.FriendList,
+                    Description = "Display your friends list.",
+                },
+                new BotCommand()
+                {
                     Command = BotCommands.Timezone,
                     Description = "Set your timezone."
                 }
@@ -72,7 +77,7 @@ namespace tymbot
                     replyToMessageId: e.Message.MessageId,
                     replyMarkup: new InlineKeyboardMarkup(InlineKeyboardButton.WithUrl(
                         "Start me",
-                        "https://t.me/kaleurbot?start="
+                        "https://t.me/kaleurbot?start=1"
                     ))
                 );
 
@@ -94,9 +99,13 @@ namespace tymbot
             var response = await handler.HandleAsync(e.Message, db);
             if (response?.Length > 0)
             {
-                if (command == BotCommands.Time && user.ChatId.HasValue)
+                if ((command == BotCommands.Time || command == BotCommands.FriendList) && user.ChatId.HasValue)
                 {
-                    await botClient.SendTextMessageAsync(new Chat() { Id = user.ChatId.Value, Type = ChatType.Private }, response);
+                    await botClient.SendTextMessageAsync(
+                        new Chat() { Id = user.ChatId.Value, Type = ChatType.Private }, 
+                        response,
+                        parseMode: ParseMode.Markdown
+                    );
                 }
                 else
                 {

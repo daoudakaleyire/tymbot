@@ -10,6 +10,7 @@ namespace tymbot.Commands
                 BotCommands.Time => new TimeCommandHandler(),
                 BotCommands.Timezone => new TimezoneCommandHandler(),
                 BotCommands.Friend => new FriendCommandHandler(),
+                BotCommands.FriendList => new FriendListCommandHandler(),
                 _ => null,
             };
         }

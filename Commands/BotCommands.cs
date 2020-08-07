@@ -6,5 +6,6 @@ namespace tymbot.Commands
         public const string Time = "time";
         public const string Timezone = "timezone";
         public const string Friend = "friend";
+        public const string FriendList = "friendlist";
     }
 }
