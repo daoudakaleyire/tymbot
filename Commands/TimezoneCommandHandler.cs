@@ -18,7 +18,12 @@ namespace tymbot.Commands
             var reply = new StringBuilder();
             var userId = message.From.Id;
             var fromUserId = message.ReplyToMessage?.From.Id;
-            var inputZone = textMessage.Substring(9).Trim().ToLower();
+            var inputZone = textMessage
+                .Replace($"/{BotCommands.Timezone}{message.ViaBot.Username}", "")
+                .Replace($"/{BotCommands.Timezone}", "")
+                .Trim()
+                .ToLower();
+            
             var timezone = DateTimeZoneProviders.Tzdb.Ids.SingleOrDefault(id => id.ToLower() == inputZone);
             if (timezone == null)
             {

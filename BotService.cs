@@ -18,6 +18,7 @@ namespace tymbot
     {
         private readonly ITelegramBotClient botClient;
         private readonly IServiceScopeFactory serviceScopeFactory;
+        private User bot;
 
         public BotService(IServiceScopeFactory serviceScopeFactory)
         {
@@ -52,6 +53,9 @@ namespace tymbot
                 }
             };
 
+            bot = botClient.GetMeAsync()
+                .GetAwaiter()
+                .GetResult();
             botClient.SetMyCommandsAsync(commands)
                 .GetAwaiter()
                 .GetResult();
@@ -71,13 +75,13 @@ namespace tymbot
             {
                 await botClient.SendTextMessageAsync(
                     chatId: e.Message.Chat,
-                    text: "Please start the bot.",
+                    text: $"Please start {bot.FirstName}.",
                     parseMode: ParseMode.Markdown,
                     disableNotification: true,
                     replyToMessageId: e.Message.MessageId,
                     replyMarkup: new InlineKeyboardMarkup(InlineKeyboardButton.WithUrl(
-                        "Start me",
-                        "https://t.me/kaleurbot?start=1"
+                        $"Start {bot.FirstName}",
+                        $"https://t.me/{bot.Username}?start=1"
                     ))
                 );
 
@@ -129,7 +133,7 @@ namespace tymbot
                 command.Append(message[i]);
             }
 
-            return command.ToString();
+            return command.ToString().Replace(bot.Username, "");
         }
     }
 }
