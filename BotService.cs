@@ -133,7 +133,7 @@ namespace tymbot
                 command.Append(message[i]);
             }
 
-            return command.ToString().Replace(bot.Username, "");
+            return command.ToString().Replace($"@{bot.Username}", "");
         }
     }
 }

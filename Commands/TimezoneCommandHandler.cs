@@ -19,7 +19,7 @@ namespace tymbot.Commands
             var userId = message.From.Id;
             var fromUserId = message.ReplyToMessage?.From.Id;
             var inputZone = textMessage
-                .Replace($"/{BotCommands.Timezone}{message.ViaBot.Username}", "")
+                .Replace($"/{BotCommands.Timezone}@{message.ViaBot.Username}", "")
                 .Replace($"/{BotCommands.Timezone}", "")
                 .Trim()
                 .ToLower();
