@@ -18,7 +18,7 @@ namespace tymbot
     {
         private readonly ITelegramBotClient botClient;
         private readonly IServiceScopeFactory serviceScopeFactory;
-        private User bot;
+        public static User Bot;
 
         public BotService(IServiceScopeFactory serviceScopeFactory)
         {
@@ -53,7 +53,7 @@ namespace tymbot
                 }
             };
 
-            bot = botClient.GetMeAsync()
+            Bot = botClient.GetMeAsync()
                 .GetAwaiter()
                 .GetResult();
             botClient.SetMyCommandsAsync(commands)
@@ -75,13 +75,13 @@ namespace tymbot
             {
                 await botClient.SendTextMessageAsync(
                     chatId: e.Message.Chat,
-                    text: $"Please start {bot.FirstName}.",
+                    text: $"Please start {Bot.FirstName}.",
                     parseMode: ParseMode.Markdown,
                     disableNotification: true,
                     replyToMessageId: e.Message.MessageId,
                     replyMarkup: new InlineKeyboardMarkup(InlineKeyboardButton.WithUrl(
-                        $"Start {bot.FirstName}",
-                        $"https://t.me/{bot.Username}?start=1"
+                        $"Start {Bot.FirstName}",
+                        $"https://t.me/{Bot.Username}?start=1"
                     ))
                 );
 
@@ -133,7 +133,7 @@ namespace tymbot
                 command.Append(message[i]);
             }
 
-            return command.ToString().Replace($"@{bot.Username}", "");
+            return command.ToString().Replace($"@{Bot.Username}", "");
         }
     }
 }
