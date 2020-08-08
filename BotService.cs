@@ -103,12 +103,16 @@ namespace tymbot
             var response = await handler.HandleAsync(e.Message, db);
             if (response?.Length > 0)
             {
+                ParseMode parseMode = command != BotCommands.FriendList
+                    ? ParseMode.Default
+                    : ParseMode.Markdown;
+
                 if ((command == BotCommands.Time || command == BotCommands.FriendList) && user.ChatId.HasValue)
                 {
                     await botClient.SendTextMessageAsync(
                         new Chat() { Id = user.ChatId.Value, Type = ChatType.Private }, 
                         response,
-                        parseMode: ParseMode.Markdown
+                        parseMode: parseMode
                     );
                 }
                 else
@@ -117,7 +121,7 @@ namespace tymbot
                         e.Message.Chat, 
                         response, 
                         replyToMessageId: e.Message.MessageId,
-                        parseMode: ParseMode.Markdown
+                        parseMode: parseMode
                     );
                 }
             }
