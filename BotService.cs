@@ -65,13 +65,23 @@ namespace tymbot
 
         private async void HandlerMessageAsync(object sender, MessageEventArgs e)
         {
+            string text = e.Message.Text?.Trim();
+            if (text == null || !text.StartsWith("/")) {
+                return;
+            }
+            var command = GetCommandFromMessage(text);
+            var handler = CommandHandlerFactory.GetHandler(command);
+            if (handler == null) {
+                return;
+            }
+
             using var scope = this.serviceScopeFactory.CreateScope();
             var db = scope.ServiceProvider.GetService<TymDbContext>();
             var user = await db.Users
                 .Where(u => u.UserId == e.Message.From.Id)
                 .FirstOrDefaultAsync();
 
-            if (user == null)
+            if (user == null && !string.Equals(command, BotCommands.Start, StringComparison.OrdinalIgnoreCase))
             {
                 await botClient.SendTextMessageAsync(
                     chatId: e.Message.Chat,
@@ -88,18 +98,6 @@ namespace tymbot
                 return;
             }
 
-            string text = e.Message.Text?.Trim();
-            if (text == null || !text.StartsWith("/")) {
-                return;
-            }
-
-            var command = GetCommandFromMessage(text);
-            var handler = CommandHandlerFactory.GetHandler(command);
-            if (handler == null) {
-                return;
-            }
-
-            
             var response = await handler.HandleAsync(e.Message, db);
             if (response?.Length > 0)
             {
