@@ -22,6 +22,7 @@ services:
             MYSQL_DATABASE: db
     phpmyadmin:
         image: phpmyadmin/phpmyadmin
+        restart: always
         environment:
             MYSQL_ROOT_PASSWORD: ${DATABASE_ROOT_PASSWORD}
             PMA_HOST: database
