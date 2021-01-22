@@ -1,7 +1,11 @@
 version: '3.3'
 services:
+  bot:
+    volumes:
+      - "tymbot:/var/log/bot"
   database:
     volumes:
     -  "tymbotdatabase:/var/lib/mysql"
 volumes:
+  tymbot:
   tymbotdatabase:
